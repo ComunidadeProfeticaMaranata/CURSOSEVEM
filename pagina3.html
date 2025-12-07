@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso Panorâmico Seven - Jornada Completa</title>
+    <style>
+        /* --- CONFIGURAÇÕES GERAIS --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { background-color: #000; color: #fff; overflow-x: hidden; }
+        img { max-width: 100%; display: block; }
+        a { text-decoration: none; }
+
+        /* === ESTILO GLOBAL DE BOTÕES 3D === */
+        .btn-3d-laranja {
+            display: inline-block;
+            background: linear-gradient(to bottom, #ff8f00, #e65100);
+            color: white; font-weight: bold; text-transform: uppercase; text-decoration: none;
+            border-radius: 8px; border: none;
+            box-shadow: 0 5px 0 #bf360c, 0 10px 20px rgba(0,0,0,0.4);
+            text-shadow: 0 -1px 1px rgba(0,0,0,0.3);
+            transition: all 0.2s ease; cursor: pointer;
+        }
+        .btn-3d-laranja:hover {
+            background: linear-gradient(to bottom, #ffa040, #ff6d00);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #bf360c, 0 15px 25px rgba(0,0,0,0.5);
+        }
+        .btn-3d-laranja:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #bf360c, 0 5px 10px rgba(0,0,0,0.4);
+        }
+
+        /* --- 1. TOPO HERO --- */
+        header {
+            position: relative; height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            text-align: center; overflow: hidden; background-color: #000;
+        }
+        #video-fundo {
+            position: absolute; top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            transform: translate(-50%, -50%);
+            opacity: 0.5; z-index: 1; object-fit: cover;
+        }
+        .header-content { position: relative; z-index: 2; width: 90%; max-width: 900px; }
+        .header-content h1 {
+            font-size: 3.5rem; text-transform: uppercase; color: white;
+            font-weight: 800; text-shadow: 2px 2px 10px rgba(0,0,0,0.9); margin-bottom: 10px;
+        }
+        .header-content p {
+            font-size: 1.5rem; color: #eee; margin-bottom: 40px; text-shadow: 1px 1px 5px rgba(0,0,0,0.9);
+        }
+        .btn-topo {
+            padding: 18px 45px; font-size: 1.2rem;
+        }
+        
+        .scroll-indicator {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 2; color: white; font-size: 3rem; opacity: 0.8; animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateX(-50%) translateY(0);}
+            40% {transform: translateX(-50%) translateY(-15px);}
+            60% {transform: translateX(-50%) translateY(-7px);}
+        }
+
+        /* --- 2. HISTÓRIA (MOISES) --- */
+        #sobre-curso {
+            position: relative; min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; background-color: #000;
+        }
+        #video-sobre {
+            position: absolute; top: 50%; left: 50%;
+            min-width: 100%; min-height: 100%;
+            transform: translate(-50%, -50%); z-index: 0;
+            object-fit: cover; filter: brightness(0.6);
+        }
+        .efeito-transicao {
+            position: absolute; top: 0; left: 0; width: 100%; height: 250px;
+            background: linear-gradient(to bottom, #000 0%, transparent 100%);
+            z-index: 1; pointer-events: none;
+        }
+        .overlay-texto {
+            position: relative; z-index: 2; padding: 20px; max-width: 1000px;
+            text-align: center; color: white;
+        }
+        .overlay-texto h2 { 
+            font-size: 3.5rem; margin-bottom: 30px; color: #ffcc80; 
+            text-transform: uppercase; text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+        }
+        .overlay-texto p { 
+            font-size: 1.6rem; line-height: 1.6; font-weight: 500;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.9);
+        }
+
+        /* --- 3. BIBLIOTECA --- */
+        #biblioteca {
+            background: linear-gradient(180deg, #d35400 0%, #8e3200 100%);
+            padding: 80px 20px; text-align: center; color: white; position: relative; z-index: 2;
+        }
+        .titulo-biblioteca h2 { font-size: 3rem; margin-bottom: 10px; text-transform: uppercase; }
+        
+        .grid-livros {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 40px;
+            max-width: 1200px; margin: 0 auto;
+            align-items: stretch;
+        }
+        .card-livro {
+            background-color: white; color: #333; width: 350px;
+            border-radius: 15px; overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            display: flex; flex-direction: column; 
+            transition: transform 0.3s;
+            height: auto; min-height: 100%;
+        }
+        .card-livro:hover { transform: translateY(-5px); }
+        
+        .card-img-wrapper { 
+            background-color: #f4f4f4; padding: 20px; 
+            text-align: center; border-bottom: 1px solid #eee; 
+            height: 350px; 
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card-img-wrapper img { 
+            max-height: 100%; width: auto; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+        }
+        
+        .card-conteudo { 
+            padding: 25px; flex-grow: 1; 
+            display: flex; flex-direction: column; 
+            justify-content: space-between; text-align: left; 
+        }
+        /* Ajuste de altura para evitar corte no título */
+        .card-conteudo h3 { 
+            color: #d35400; margin-bottom: 15px; font-size: 1.3rem; min-height: 60px;
+        }
+        .card-conteudo p { 
+            font-size: 0.9rem; line-height: 1.4; color: #555; 
+            margin-bottom: 20px; text-align: justify;
+        }
+
+        .btn-card {
+            display: block; width: 100%; padding: 15px; background-color: #27ae60;
+            color: white; text-align: center; font-weight: bold; border-radius: 8px;
+            text-transform: uppercase; transition: all 0.2s; margin-top: auto;
+            /* Estilo 3D Verde */
+            background: linear-gradient(to bottom, #2ecc71, #27ae60);
+            box-shadow: 0 5px 0 #1e8449, 0 5px 10px rgba(0,0,0,0.2);
+            text-shadow: 0 -1px 0 rgba(0,0,0,0.2);
+            text-decoration: none;
+        }
+        .btn-card:hover { transform: translateY(-2px); box-shadow: 0 7px 0 #1e8449, 0 8px 15px rgba(0,0,0,0.3); }
+        .btn-card:active { transform: translateY(3px); box-shadow: 0 2px 0 #1e8449, 0 2px 5px rgba(0,0,0,0.2); }
+
+        .btn-card.breve { 
+            background: linear-gradient(to bottom, #f39c12, #d35400);
+            box-shadow: 0 5px 0 #a84300, 0 5px 10px rgba(0,0,0,0.2);
+        }
+        .btn-card.breve:hover { box-shadow: 0 7px 0 #a84300, 0 8px 15px rgba(0,0,0,0.3); }
+        .btn-card.breve:active { box-shadow: 0 2px 0 #a84300, 0 2px 5px rgba(0,0,0,0.2); }
+
+
+        /* --- 4. INVESTIR (CRUZ) --- */
+        #investir {
+            position: relative; background-image: url('cruz.jpg'); 
+            background-size: cover; background-position: center;
+            background-attachment: fixed; padding: 100px 20px;
+            text-align: center; color: white; overflow: hidden;
+        }
+        .overlay-cruz {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.7); z-index: 1;
+        }
+        .nevoa-geral {
+            position: absolute; top: 0; left: 0; width: 200%; height: 100%;
+            background: linear-gradient(90deg, transparent 0%, rgba(0,0,0,0.8) 50%, transparent 100%);
+            z-index: 2; animation: passarFumaca 20s infinite linear; pointer-events: none;
+        }
+        .texto-teologico {
+            position: relative; z-index: 3; max-width: 800px; margin: 0 auto; text-align: left;
+            font-size: 1.3rem; line-height: 1.8; color: #f0f0f0;
+        }
+        .texto-teologico h2 { 
+            text-align: center; color: #ffca28; font-size: 2.8rem; margin-bottom: 40px;
+            text-transform: uppercase; text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+        }
+        .texto-teologico strong { color: #fff; }
+        .destaque-box {
+            background-color: rgba(255, 255, 255, 0.1); border-left: 5px solid #ffca28;
+            padding: 30px; margin: 30px 0; border-radius: 0 10px 10px 0; backdrop-filter: blur(5px);
+        }
+        
+        .btn-destaque-cruz {
+            padding: 20px 40px; font-size: 1.3rem; width: 100%; max-width: 500px;
+        }
+
+        /* --- 5. FUNDADOR (CENTRALIZADO) --- */
+        #fundador {
+            position: relative;
+            padding: 100px 20px;
+            text-align: center;
+            overflow: hidden;
+            background-color: #000;
+        }
+        .bg-jesus {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('jesus.jpg');
+            background-size: cover; background-position: center;
+            background-attachment: fixed; z-index: 0; filter: brightness(0.4); 
+        }
+        .fumaca-layer {
+            position: absolute; top: 0; left: 0; width: 200%; height: 100%;
+            background: url('https://raw.githubusercontent.com/SochavaAG/example-assets/master/fog.png') repeat-x;
+            background-size: cover; opacity: 0.5; z-index: 1; 
+            animation: passarFumaca 80s linear infinite; pointer-events: none;
+        }
+        .fundador-wrapper { position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+        .logo-fundador {
+            max-width: 200px; width: 100%; height: auto; margin: 0 auto 20px auto; 
+            display: block; filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+        }
+        .fundador-wrapper h2 {
+            font-size: 3rem; color: #e65100; text-transform: uppercase;
+            margin-bottom: 40px; text-shadow: 2px 2px 10px black;
+        }
+        .img-pastor-central {
+            width: 250px; height: auto; border-radius: 15px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8); margin-bottom: 30px; display: inline-block;
+        }
+        .texto-bio-central {
+            font-size: 1.2rem; line-height: 1.8; color: #e0e0e0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8); text-align: center; 
+        }
+        .texto-bio-central strong { color: white; font-weight: bold; }
+        @keyframes passarFumaca { 
+            0% { transform: translateX(0); } 100% { transform: translateX(-50%); } 
+        }
+
+        /* --- 6. AUDIOBOOKS (ANTIGO VÍDEOS) --- */
+        #aula {
+            background-color: #111; padding: 80px 20px; text-align: center; 
+            color: white; border-top: 5px solid #e65100;
+            position: relative; background-image: url('29257c5c3e74c6e5f16c87165faded8a.jpg');
+            background-size: cover; background-position: center;
+        }
+        #aula::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); z-index: 1;
+        }
+        .conteudo-aula { position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
+
+        .videos-grid {
+            display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-top: 30px;
+        }
+
+        /* Estilo do Card de Áudio */
+        .audio-card {
+            flex: 1; min-width: 300px; max-width: 350px;
+            background: rgba(30, 30, 30, 0.9); 
+            border: 1px solid #444; border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            padding: 20px;
+            display: flex; flex-direction: column; align-items: center;
+            transition: transform 0.3s;
+        }
+        .audio-card:hover { transform: translateY(-5px); border-color: #e65100; }
+
+        .audio-card img {
+            width: 150px; height: auto; border-radius: 5px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5); margin-bottom: 20px;
+        }
+
+        .audio-card h3 {
+            color: #e65100; font-size: 1.2rem; margin-bottom: 15px; text-transform: uppercase;
+        }
+
+        .audio-card audio {
+            width: 100%; outline: none;
+        }
+        /* Customização básica do player (cores dependem do navegador) */
+        audio::-webkit-media-controls-panel { background-color: #f0f0f0; }
+
+        /* Botão Ação Final (Estilo 3D Verde) */
+        .btn-acao-final {
+            display: block; width: 100%; padding: 25px; margin-top: 40px;
+            font-size: 1.8rem; 
+            background: linear-gradient(to bottom, #2ecc71, #27ae60);
+            box-shadow: 0 6px 0 #1e8449, 0 10px 20px rgba(0,0,0,0.3);
+            text-decoration: none; color: white; font-weight: bold; border-radius: 8px; text-transform: uppercase;
+        }
+        .btn-acao-final:hover {
+            background: linear-gradient(to bottom, #40d47e, #2ecc71);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #1e8449, 0 15px 25px rgba(0,0,0,0.4);
+        }
+        .btn-acao-final:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #1e8449, 0 5px 10px rgba(0,0,0,0.3);
+        }
+
+
+        /* --- 7. TOMADA DE DECISÃO --- */
+        #decisao {
+            background: linear-gradient(180deg, #111 0%, #000 100%);
+            padding: 100px 20px; text-align: center; border-top: 2px solid #e65100;
+        }
+        .oferta-container {
+            max-width: 800px; margin: 0 auto; background-color: rgba(255, 255, 255, 0.05);
+            color: #fff; border-radius: 15px; padding: 50px 30px;
+            border: 2px dashed #555; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .oferta-container h2 {
+            font-size: 2.5rem; color: #fff; margin-bottom: 10px; text-transform: uppercase;
+        }
+        .oferta-container .subtitulo { font-size: 1.2rem; color: #aaa; margin-bottom: 40px; }
+        
+        /* CORREÇÃO DO LAYOUT DE DORES (VERMELHO) */
+        .dores-box-final {
+            background-color: rgba(255, 0, 0, 0.1); 
+            border-left: 5px solid #c0392b; /* Cor da linha vermelha */
+            padding: 20px; text-align: left; border-radius: 5px; margin-bottom: 30px;
+        }
+        .dores-box-final h3 { color: #fff; margin-bottom: 15px; font-size: 1.3rem; }
+        .dores-box-final ul { list-style: none; padding: 0; }
+        .dores-box-final li { margin-bottom: 10px; font-size: 1.1rem; color: #ddd; }
+
+        .beneficios-final-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px; margin-bottom: 40px;
+        }
+        
+        /* LAYOUT APROVADO: CAIXAS DE BENEFÍCIOS (Verde Brilhante) */
+        .verde-brilhante { color: #2ecc71; } /* Cor: Verde Brilhante */
+        
+        .beneficio-item {
+            /* Fundo cinza claro quase branco */
+            background-color: #f4f4f4; 
+            /* Cor da fonte preta */
+            color: #333; 
+            padding: 15px; 
+            border-radius: 8px; 
+            /* Linha em volta da caixa em verde brilhante */
+            border: 2px solid #2ecc71; 
+        }
+        .beneficio-item h4 { 
+            /* Título da caixa em verde brilhante */
+            color: #2ecc71; 
+            margin-bottom: 5px; 
+        }
+        .beneficio-item p { 
+            /* Cor da fonte preta */
+            font-size: 0.9rem; 
+            color: #333; 
+        }
+
+        .lista-inclusos {
+            text-align: left; display: inline-block; margin-bottom: 30px;
+            border-top: 1px solid #444; border-bottom: 1px solid #444;
+            padding: 20px 0; width: 100%;
+        }
+        .lista-inclusos li { font-size: 1.2rem; margin-bottom: 12px; list-style: none; color: #eee; }
+        .lista-inclusos li strong { color: #fff; }
+
+        /* Botão de Compra Final */
+        .btn-compra-final {
+            display: block; width: 100%; padding: 25px; margin-bottom: 15px;
+            font-size: 1.8rem; background: linear-gradient(to bottom, #2ecc71, #27ae60);
+            box-shadow: 0 6px 0 #1e8449, 0 10px 20px rgba(0,0,0,0.3);
+            text-decoration: none; color: white; font-weight: bold; border-radius: 8px; text-transform: uppercase;
+        }
+        .btn-compra-final:active { transform: translateY(4px); box-shadow: none; }
+        .btn-compra-final:hover { background: linear-gradient(to bottom, #40d47e, #2ecc71); }
+
+        .garantia-txt { 
+            font-size: 1.1rem; color: #fff; font-weight: bold; 
+            display: flex; align-items: center; justify-content: center; gap: 5px; 
+            text-shadow: 0 1px 2px black;
+        }
+
+        /* --- 8. BARRA SOCIAL E RODAPÉ --- */
+        .social-bar {
+            background-color: #e65100; padding: 30px 0; text-align: center;
+            display: flex; justify-content: center; align-items: center;
+            gap: 40px; position: relative; z-index: 10;
+        }
+        .social-icon {
+            width: 32px; height: 32px; fill: white;
+            transition: transform 0.2s ease-in-out; cursor: pointer; flex-shrink: 0;
+        }
+        .social-icon:hover { transform: scale(1.2); }
+        footer { 
+            background: black; color: #777; text-align: center; 
+            padding: 20px; font-size: 0.9rem; position: relative; z-index: 10; 
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .header-content h1 { font-size: 2.2rem; }
+            .texto-teologico h2 { font-size: 2rem; }
+            .fundador-wrapper h2 { font-size: 2.2rem; }
+            .logo-fundador { max-width: 150px; }
+            .img-pastor-central { width: 200px; }
+            .social-bar { gap: 30px; padding: 25px 0; }
+            .oferta-container { padding: 30px 15px; }
+            .btn-compra-final { font-size: 1.3rem; padding: 20px; }
+            .btn-destaque-cruz { font-size: 1.1rem; padding: 15px 20px; }
+        }
+
+        /* === ESTILO DO MODAL (POP-UP) === */
+        .modal-fundo {
+            display: none; 
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+        }
+    
+        .modal-conteudo {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            width: 90%;
+            max-width: 450px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            animation: aparecerSuave 0.5s;
+            border-top: 5px solid #4CAF50;
+        }
+    
+        .modal-conteudo h2 {
+            color: #333;
+            margin-top: 0;
+            font-size: 1.8rem;
+        }
+        .modal-conteudo p {
+            color: #666;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+    
+        @keyframes aparecerSuave {
+            from {opacity: 0; transform: translateY(-30px);}
+            to {opacity: 1; transform: translateY(0);}
+        }
+    </style>
+</head>
+<body id="topo">
+
+    <div id="meuModal" class="modal-fundo">
+        <div class="modal-conteudo">
+            
+            <div id="fase-bencao">
+                <h2>✨ Deus abençoe sua vida!</h2>
+                <p>Obrigado por contribuir com essa obra em prol do reino.</p>
+                <p style="background-color: #f0f8ff; padding: 10px; border-radius: 5px; font-size: 14px; margin-top: 20px;">
+                    ✅ <strong>Seu presente está garantido!</strong> Continue para finalizar a compra e receber seu bônus.
+                </p>
+            </div>
+        
+            <div id="fase-redirecionar" style="display: none; margin-top: 20px;">
+                </div>
+            
+        </div>
+    </div>
+    <header>
+        <video autoplay muted loop playsinline id="video-fundo">
+            <source src="video_fundo.mp4" type="video/mp4">
+        </video>
+        <div class="header-content">
+            <h1>CURSO PANORÂMICO SEVEN</h1>
+            <p>A Teologia Descomplicada para quem quer profundidade.</p>
+            <a href="#sobre-curso" class="btn-topo btn-3d-laranja">QUERO APRENDER MAIS</a>
+        </div>
+        <div class="scroll-indicator">⌄</div>
+    </header>
+
+    <section id="sobre-curso">
+        <video autoplay muted loop playsinline id="video-sobre">
+            <source src="moises.mp4" type="video/mp4">
+        </video>
+        <div class="efeito-transicao"></div>
+        <div class="overlay-texto">
+            <h2>A História Completa</h2>
+            <p>Toda a história Bíblica, do Gênesis ao Apocalipse, em sete grandes blocos temáticos.</p>
+        </div>
+    </section>
+
+    <section id="biblioteca">
+        <div class="titulo-biblioteca">
+            <h2>Biblioteca Maranata</h2>
+            <p>Conheça os materiais exclusivos.</p>
+        </div>
+        <div class="grid-livros">
+            
+            <div class="card-livro">
+                <div class="card-img-wrapper"><img src="livro 1.png" alt="Livro 1"></div>
+                <div class="card-conteudo">
+                    <h3>Adoração até que Ele venha</h3>
+                    <p>Uma inspiração maravilhosa que nos leva a refletir sobre o que estamos fazendo verdadeiramente durante os cultos. Estamos adorando a Deus ou só praticando uma liturgia? Essa obra traz uma profunda análise sobre o que é adoração segundo os originais da Bíblia sagrada.</p>
+                    <a href="https://loja.uiclap.com/titulo/ua102818" class="btn-card" target="_blank">📖 Comprar Agora</a>
+                </div>
+            </div>
+            
+            <div class="card-livro">
+                <div class="card-img-wrapper"><img src="livro2.png" alt="Livro 2"></div>
+                <div class="card-conteudo">
+                    <h3>Tangedores</h3>
+                    <p>Este material abrange um assunto muito pouco comentado nos dias de hoje, muitas vezes repudiado em algumas igrejas. Tangedores fala sobre os conhecidos levitas. O principal objetivo do ministério de adoração com música nunca foi para entretenimento da igreja.</p>
+                    <a href="https://loja.uiclap.com/titulo/ua123216" class="btn-card" target="_blank">📖 Comprar Agora</a>
+                </div>
+            </div>
+
+            <div class="card-livro">
+                <div class="card-img-wrapper"><img src="livro 3.png" alt="Livro 3"></div>
+                <div class="card-conteudo">
+                    <h3>Profetas e seus Cânticos Espirituais</h3>
+                    <p>Profetas e seus Cânticos Espirituais tem uma linguagem totalmente voltada para conhecimento do papel profético através das canções, sem esquecer que eram orações cantadas ou profecias através dos cânticos espirituais dos profetas.</p>
+                    <a href="livro3_aguarde.html" class="btn-card breve">🕒 Em Breve</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="investir">
+        <div class="overlay-cruz"></div>
+        <div class="nevoa-geral"></div>
+        <div class="texto-teologico">
+            <h2>Por que investir neste curso?</h2>
+            <p>O Curso Panorâmico SEVEN conecta cada parte à história maior. Você entende que a Bíblia é uma única narrativa centrada em <strong>Jesus Cristo</strong>.</p>
+            
+            <div class="destaque-box">
+                <p>Por exemplo: Em <strong>Gênesis 2:9</strong> temos a menção da árvore da vida. Em <strong>Apocalipse 22:2-5</strong>, o fim também menciona a árvore.</p>
+                <p style="margin-top: 15px; font-size: 1.3rem; color: #ffca28; font-weight: bold;">E Jesus afirma sobre si em <strong>João 15:1</strong>: "Eu sou a videira verdadeira".</p>
+                <p style="margin-top: 15px; font-size: 1.3rem; color: #ffca28; font-weight: bold;">E em <strong>Apocalipse 22:13</strong> Ele declara: "Eu sou o Alfa e o Ômega, o Primeiro e o Último, o Princípio e o Fim".</p>
+            </div>
+            
+            <p style="text-align: center; margin-top: 20px; font-weight: bold;">Tudo está conectado.</p>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <a id="abrirModal" class="btn-destaque-cruz btn-3d-laranja" style="cursor: pointer;">QUERO MERGULHAR NA BÍBLIA AGORA</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="fundador">
+        <div class="bg-jesus"></div>
+        <div class="fumaca-layer"></div>
+        <div class="fundador-wrapper">
+            <img src="logo maranata.png" alt="Logo Maranata" class="logo-fundador">
+
+            <h2>SOBRE O FUNDADOR</h2>
+            
+            <img src="ms.JPG" alt="Pastor Marcos Santos" class="img-pastor-central">
+
+            <div class="texto-bio-central">
+                <p>O fundador da Comunidade Profética Maranata, <strong>Pastor Marcos Santos</strong>, juntamente com sua equipe, cuidadosamente elaboraram um curso que tem como objetivo sanar as dificuldades que muitos cristãos enfrentam hoje em dia.</p>
+                <br>
+                <p>Querem ter segurança para citar referências e explicar contextos históricos sem gaguejar, querem olhar para a Bíblia e entender o "Todo" e, por fim, querem algo que mude a vida espiritual, não apenas dados frios.</p>
+                <br>
+                <p>Com mais de 20 anos de conversão, o pastor Marcos é Ministro de adoração, tendo atuado ao longo desse tempo sempre nos ministérios de adoração com música, intercessão e pregação do evangelho. Aprimorou seus conhecimentos ao longo dos anos com cursos diversos tais como Cristologia, escatologia bíblica e panorama bíblico.</p>
+                <br>
+                <p>Autor de 3 Livros com foco em adoração profética (que podem ser acessados nesta página), elaborou um curso que tem o principal objetivo levar qualquer leitor da Bíblia ao conhecimento pleno da mensagem da Cruz, de Gênesis a Apocalipse.</p>
+                <br>
+                <p><strong>Aos que acham que teologia é "difícil demais", "chata" ou que precisa saber Grego e Hebraico para começar:</strong> Saiba que o método SEVEN em 7 Etapas, 7 passos e 7 guias de estudo não apenas organiza os livros, mas conecta cada parte à história maior.</p>
+                <br>
+                <p style="color: #e65100; font-weight: bold; margin-top: 20px;">Nele, você entende que a Bíblia é uma única narrativa centrada em Jesus Cristo, que é o cumprimento de toda a promessa, profecia e tipologia do Antigo ao Novo Testamento. Bom curso!</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="aula">
+        <div class="conteudo-aula">
+            <h2 style="font-size: 2.5rem; margin-bottom: 30px; text-shadow: 0 2px 10px black;">Amostra do Audio Book</h2>
+            
+            <div class="videos-grid">
+                
+                <div class="audio-card">
+                    <img src="livro 1.png" alt="Capa Adoração">
+                    <h3>Adoração (Trecho)</h3>
+                    <audio controls>
+                        <source src="audio1.mp3" type="audio/mpeg">
+                        Seu navegador não suporta áudio.
+                    </audio>
+                </div>
+
+                <div class="audio-card">
+                    <img src="livro2.png" alt="Capa Tangedores">
+                    <h3>Tangedores (Trecho)</h3>
+                    <audio controls>
+                        <source src="audio2.mp3" type="audio/mpeg">
+                        Seu navegador não suporta áudio.
+                    </audio>
+                </div>
+
+                <div class="audio-card">
+                    <img src="livro 3.png" alt="Capa Profetas">
+                    <h3>Profetas (Trecho)</h3>
+                    <audio controls>
+                        <source src="audio3.mp3" type="audio/mpeg">
+                        Seu navegador não suporta áudio.
+                    </audio>
+                </div>
+
+            </div>
+            
+            <a href="#decisao" class="btn-acao-final btn-3d-laranja" style="background: linear-gradient(to bottom, #2ecc71, #27ae60); box-shadow: 0 6px 0 #1e8449, 0 10px 20px rgba(0,0,0,0.3);">QUERO GARANTIR MINHA VAGA AGORA!</a>
+        </div>
+    </section>
+
+    <section id="decisao">
+        <div class="oferta-container">
+            <h2>INVISTA NO SEU MINISTÉRIO HOJE</h2>
+            <p class="subtitulo">Não é apenas conhecimento, é ferramenta de trabalho para o Reino.</p>
+            
+            <div class="dores-box-final">
+                <h3>⛔ Chega de sentir insegurança:</h3>
+                <ul>
+                    <li>❌ Ler a Bíblia sem entender a cronologia?</li>
+                    <li>❌ Medo de perguntas difíceis na EBD?</li>
+                    <li>❌ Sensação de que falta profundidade na pregação?</li>
+                </ul>
+            </div>
+
+            <div class="beneficios-final-grid">
+                <div class="beneficio-item">
+                    <h4>🦅 Visão de Águia</h4>
+                    <p>Entenda o "Todo" da Bíblia de Gênesis a Apocalipse.</p>
+                </div>
+                <div class="beneficio-item">
+                    <h4>🛡️ Autoridade</h4>
+                    <p>Pregue com segurança e base teológica sólida.</p>
+                </div>
+                <div class="beneficio-item">
+                    <h4>⏳ Praticidade</h4>
+                    <p>Sem gastar 4 anos de seminário. Direto ao ponto.</p>
+                </div>
+            </div>
+
+            <h3>O QUE VOCÊ VAI RECEBER:</h3>
+            
+            <ul class="lista-inclusos">
+                <li>✅ <strong>Curso Completo em Vídeo</strong> (Aulas Panorâmicas)</li>
+                <li>✅ <strong>3 Resumos em PDF dos Livros</strong> (Introdução ao Conhecimento)</li>
+                <li>✅ <strong>Audiobooks dos 3 Livros</strong> (Para ouvir onde quiser)</li>
+                <li>✅ <strong>Acesso de 12 Meses</strong> ao Conteúdo</li>
+                <li>✅ <strong>Desconto Especial</strong> na compra dos Livros Físicos</li>
+            </ul>
+
+            <div style="margin: 40px 0;">
+                <p style="font-size: 1.2rem; text-decoration: line-through; color: #999;">De: R$ 697,00</p>
+                
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <p style="font-size: 3.5rem; font-weight: 800; color: #e65100; margin: 0; line-height: 1;">R$ 197,00</p>
+                    
+                    <p style="font-size: 1.5rem; color: #fff; margin-top: 5px; font-weight: 700; text-shadow: 0 2px 4px rgba(0,0,0,0.5);">ou em 12x de R$ 19,66</p>
+                </div>
+            </div>
+
+            <a href="SEU_LINK_DE_CHECKOUT_AQUI" class="btn-compra-final btn-3d-laranja" style="background: linear-gradient(to bottom, #2ecc71, #27ae60); box-shadow: 0 6px 0 #1e8449, 0 10px 20px rgba(0,0,0,0.3);">SIM! QUERO DOMINAR A BÍBLIA AGORA</a>
+            
+            <div class="garantia-txt">
+                <span>🔒</span> Compra 100% Segura | Garantia de 7 Dias
+            </div>
+        </div>
+    </section>
+
+    <div class="social-bar">
+        <a href="https://www.instagram.com/maranatamovement1/#" target="_blank" aria-label="Instagram">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.5 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.9 0-184.9zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/></svg>
+        </a>
+        <a href="https://www.facebook.com/marcosapostolico12/" target="_blank" aria-label="Facebook">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M80 299.3V512H196V299.3h86.5l18-97.8H196V166.9c0-51.7 20.3-71.5 72.7-71.5c16.3 0 29.4 .4 37 1.2V7.9C291.4 4 256.4 0 236.2 0C129.3 0 80 50.5 80 159.4v42.1H14v97.8H80z"/></svg>
+        </a>
+        <a href="https://youtube.com/@maranatacomunidadeprofetica?si=Td6PPhdPCtku4wcx" target="_blank" aria-label="YouTube">
+            <svg class="social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M549.7 124.1c-6.3-23.7-24.8-42.3-48.3-48.6C458.8 64 288 64 288 64S117.2 64 74.6 75.5c-23.5 6.3-42 24.9-48.3 48.6-11.4 42.9-11.4 132.3-11.4 132.3s0 89.4 11.4 132.3c6.3 23.7 24.8 42.3 48.3 48.6 42.6 11.5 213.4 11.5 213.4 11.5s170.8 0 213.4-11.5c23.5-6.3 42-24.9 48.3-48.6 11.4-42.9 11.4-132.3 11.4-132.3s0-89.4-11.4-132.3zm-317.5 213.5V175.2l142.7 81.2-142.7 81.2z"/></svg>
+        </a>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Curso Panorâmico Seven - Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // 1. Seleciona os elementos
+            const botaoAcao = document.getElementById('abrirModal'); 
+            const modal = document.getElementById('meuModal');
+            const faseBencao = document.getElementById('fase-bencao');
+            const faseRedirecionar = document.getElementById('fase-redirecionar');
+
+            // 2. Função principal: Abrir, Interagir e Fechar
+            function gerenciarModalComAtraso(event) {
+                // Previne qualquer ação padrão do botão (como rolar a página)
+                if (event.target.tagName === 'A') {
+                    event.preventDefault(); 
+                }
+                
+                // A) ABRIR O MODAL: Altera o CSS de 'display: none' para 'display: flex'
+                modal.style.display = 'flex';
+                
+                // B) Configurar o conteúdo inicial (Fase 1: Bênção)
+                faseBencao.style.display = 'block';
+                faseRedirecionar.style.display = 'none';
+
+                // --- 8 SEGUNDOS (tempo da primeira mensagem): Transição de fase ---
+                setTimeout(() => {
+                    faseBencao.style.display = 'none'; // Esconde a fase 1
+                    faseRedirecionar.style.display = 'block'; // Mostra a fase 2
+                    
+                    // Define o texto da fase 2:
+                    faseRedirecionar.innerHTML = `
+                        <p style="color: #2e7d32; font-weight: bold; font-size: 18px;">Tudo pronto!</p>
+                        <p>Por favor, continue a compra. Obrigado!</p>
+                    `;
+                    
+                    // --- 10 SEGUNDOS (total) - Fechamento: ---
+                    setTimeout(() => {
+                        modal.style.display = 'none'; // Fecha o modal
+                        window.location.href = '#decisao'; // Redireciona para a seção de compra
+                    }, 2000); // 2 segundos para ler a mensagem de continuação
+
+                }, 8000); // NOVO TEMPO: 8 segundos (para a mensagem inicial de bênção)
+            }
+
+            // 3. Adicionar o ouvinte de evento ao botão
+            if (botaoAcao) {
+                botaoAcao.addEventListener('click', gerenciarModalComAtraso);
+            }
+        });
+    </script>
+    </body>
+</html>
